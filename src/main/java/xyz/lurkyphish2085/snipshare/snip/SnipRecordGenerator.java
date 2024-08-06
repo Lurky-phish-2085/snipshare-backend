@@ -27,8 +27,8 @@ public class SnipRecordGenerator {
         StringBuilder generatedId = new StringBuilder();
 
         for (int i = 0; i < RETRIEVAL_ID_LENGTH; i++) {
-            int randomIndex = random.nextInt(RETRIEVAL_ID_LENGTH);
-            int randomCharacter = ALPHA_NUMERIC_STRING.charAt(randomIndex);
+            int randomIndex = random.nextInt(ALPHA_NUMERIC_STRING.length());
+            char randomCharacter = ALPHA_NUMERIC_STRING.charAt(randomIndex);
             generatedId.append(randomCharacter);
         }
 
