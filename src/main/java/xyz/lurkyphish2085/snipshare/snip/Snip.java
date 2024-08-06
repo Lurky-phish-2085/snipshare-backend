@@ -13,11 +13,11 @@ public class Snip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "retrieval_id", nullable = false)
+    @Column(name = "retrieval_id", unique = true, nullable = false)
     private String retrievalId;
-    @Column(name = "file_name", nullable = false)
+    @Column(name = "file_name", unique = true, nullable = false)
     private String fileName;
-    @Column(name = "expiry_date", nullable = false)
+    @Column(name = "expiry_date")
     private LocalDate expiryDate;
     @CreationTimestamp
     @Column(name = "created_at")
