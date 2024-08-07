@@ -9,21 +9,30 @@ import java.util.Optional;
 public class SnipServiceImpl implements SnipService {
 
     private final SnipRepository snipRepository;
+    private final SnipFileRepository snipFileRepository;
     private final SnipRecordGenerator snipRecordGenerator;
 
     @Autowired
-    public SnipServiceImpl(SnipRepository snipRepository, SnipRecordGenerator snipRecordGenerator) {
+    public SnipServiceImpl(SnipRepository snipRepository, SnipFileRepository snipFileRepository, SnipRecordGenerator snipRecordGenerator) {
         this.snipRepository = snipRepository;
+        this.snipFileRepository = snipFileRepository;
         this.snipRecordGenerator = snipRecordGenerator;
     }
 
-    public Snip getSnip(String retrievalId) {
+    public SnipRetrievalResponse getSnip(String retrievalId) {
         Optional<Snip> snipOptional = snipRepository.findByRetrievalId(retrievalId);
         if (snipOptional.isEmpty()) {
             throw new IllegalStateException("Snip '" + retrievalId + "' doesn't exist");
         }
+        Snip snip = snipOptional.get();
 
-        return snipOptional.get();
+        Optional<String> snipContentOptional = snipFileRepository.getSnipFileContent(snip.getFileName());
+        if (snipContentOptional.isEmpty()) {
+            throw new IllegalStateException("Snip file '" + retrievalId + "' doesn't exist");
+        }
+        String snipContent = snipContentOptional.get();
+
+        return new SnipRetrievalResponse(snipContent, snip.getCreatedAt(), snip.getExpiryDate());
     }
 
     public String submitSnip(SnipSubmissionRequest request) {
