@@ -1,4 +1,4 @@
-package xyz.lurkyphish2085.snipshare.snip;
+package xyz.lurkyphish2085.snipshare.snip.dto;
 
 import java.time.LocalDate;
 

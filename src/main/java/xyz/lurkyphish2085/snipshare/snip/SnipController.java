@@ -2,6 +2,9 @@ package xyz.lurkyphish2085.snipshare.snip;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import xyz.lurkyphish2085.snipshare.snip.dto.SnipRetrievalResponse;
+import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;
+import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionResponse;
 
 @RestController
 @RequestMapping(path = "api/v1/snip")
