@@ -2,6 +2,7 @@ package xyz.lurkyphish2085.snipshare.snip;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.lurkyphish2085.snipshare.snip.dto.SnipDTO;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;
 
 import java.util.Optional;
@@ -20,7 +21,7 @@ public class SnipServiceImpl implements SnipService {
         this.snipRecordGenerator = snipRecordGenerator;
     }
 
-    public Snip getSnip(String retrievalId) {
+    public SnipDTO getSnip(String retrievalId) {
         Optional<Snip> snipOptional = snipRepository.findByRetrievalId(retrievalId);
         if (snipOptional.isEmpty()) {
             throw new IllegalStateException("Snip '" + retrievalId + "' doesn't exist");
@@ -34,7 +35,7 @@ public class SnipServiceImpl implements SnipService {
         String snipContent = snipContentOptional.get();
 
 
-        return new Snip(snipContent, snip.getCreatedAt(), snip.getExpiryDate());
+        return new SnipDTO(snipContent, snip.getCreatedAt(), snip.getExpiryDate());
     }
 
     public String submitSnip(SnipSubmissionRequest request) {

@@ -2,6 +2,7 @@ package xyz.lurkyphish2085.snipshare.snip;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import xyz.lurkyphish2085.snipshare.snip.dto.SnipDTO;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipRetrievalResponse;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionResponse;
@@ -19,12 +20,12 @@ public class SnipController {
 
     @GetMapping(path = "{retrievalId}")
     public SnipRetrievalResponse getSnip(@PathVariable("retrievalId") String retrievalId) {
-        Snip retrievedSnip =  snipService.getSnip(retrievalId);
+        SnipDTO retrievedSnip =  snipService.getSnip(retrievalId);
 
         return new SnipRetrievalResponse(
-                retrievedSnip.getContent(),
-                retrievedSnip.getCreatedAt(),
-                retrievedSnip.getExpiryDate()
+                retrievedSnip.content(),
+                retrievedSnip.createdAt(),
+                retrievedSnip.expiryDate()
         );
     }
 
