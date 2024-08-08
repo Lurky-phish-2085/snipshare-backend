@@ -13,18 +13,26 @@ public class Snip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "retrieval_id", unique = true, nullable = false)
     private String retrievalId;
+
     @Column(name = "file_name", unique = true, nullable = false)
     private String fileName;
+
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDate createdAt;
+
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDate updatedAt;
+
+    @Transient
+    private String content;
 
     protected Snip() {
     }
@@ -32,6 +40,12 @@ public class Snip {
     public Snip(String retrievalId, String fileName, LocalDate expiryDate) {
         this.retrievalId = retrievalId;
         this.fileName = fileName;
+        this.expiryDate = expiryDate;
+    }
+
+    public Snip(String content, LocalDate createdAt, LocalDate expiryDate) {
+        this.content = content;
+        this.createdAt = createdAt;
         this.expiryDate = expiryDate;
     }
 
@@ -93,5 +107,13 @@ public class Snip {
 
     public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

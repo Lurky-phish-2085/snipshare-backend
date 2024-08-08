@@ -19,7 +19,13 @@ public class SnipController {
 
     @GetMapping(path = "{retrievalId}")
     public SnipRetrievalResponse getSnip(@PathVariable("retrievalId") String retrievalId) {
-        return snipService.getSnip(retrievalId);
+        Snip retrievedSnip =  snipService.getSnip(retrievalId);
+
+        return new SnipRetrievalResponse(
+                retrievedSnip.getContent(),
+                retrievedSnip.getCreatedAt(),
+                retrievedSnip.getExpiryDate()
+        );
     }
 
     @PostMapping
