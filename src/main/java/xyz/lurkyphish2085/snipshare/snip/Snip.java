@@ -23,6 +23,12 @@ public class Snip {
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
 
+    @Column(name = "disposable")
+    private Boolean isDisposable;
+
+    @Column(name = "disposed")
+    private Boolean hasDisposed;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDate createdAt;
