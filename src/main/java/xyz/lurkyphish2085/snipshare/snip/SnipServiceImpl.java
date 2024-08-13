@@ -39,7 +39,7 @@ public class SnipServiceImpl implements SnipService {
     }
 
     public String submitSnip(SnipSubmissionRequest request) {
-        Snip snip = snipRecordGenerator.generate(request.expiryDate());
+        Snip snip = snipRecordGenerator.generate(request.expiryDate(), request.isDisposable());
         snipRepository.save(snip);
         snipFileRepository.writeSnipFile(snip.getFileName(), request.content());
 
