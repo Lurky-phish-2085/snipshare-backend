@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public record SnipDTO(
         String content,
+        Boolean isDisposable,
         LocalDate createdAt,
         LocalDate expiryDate
 ) {

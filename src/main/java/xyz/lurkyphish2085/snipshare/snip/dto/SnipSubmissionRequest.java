@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public record SnipSubmissionRequest(
         String content,
+        Boolean isDisposable,
         LocalDate expiryDate
 ) {
 }
