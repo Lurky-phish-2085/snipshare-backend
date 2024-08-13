@@ -34,6 +34,9 @@ public class SnipServiceImpl implements SnipService {
         }
         String snipContent = snipContentOptional.get();
 
+        if (snip.getDisposable()) {
+            snipRepository.delete(snip);
+        }
 
         return new SnipDTO(snipContent, snip.getDisposable(), snip.getCreatedAt(), snip.getExpiryDate());
     }
