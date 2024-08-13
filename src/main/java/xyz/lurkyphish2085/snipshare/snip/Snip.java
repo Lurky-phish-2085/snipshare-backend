@@ -23,22 +23,6 @@ public class Snip {
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
 
-    public Boolean getHasDisposed() {
-        return hasDisposed;
-    }
-
-    public void setHasDisposed(Boolean hasDisposed) {
-        this.hasDisposed = hasDisposed;
-    }
-
-    public Boolean getDisposable() {
-        return isDisposable;
-    }
-
-    public void setDisposable(Boolean disposable) {
-        isDisposable = disposable;
-    }
-
     @Column(name = "disposable")
     private Boolean isDisposable;
 
@@ -121,5 +105,21 @@ public class Snip {
 
     public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Boolean getHasDisposed() {
+        return hasDisposed;
+    }
+
+    public void setHasDisposed(Boolean hasDisposed) {
+        this.hasDisposed = hasDisposed;
+    }
+
+    public Boolean getDisposable() {
+        return isDisposable;
+    }
+
+    public void setDisposable(Boolean disposable) {
+        isDisposable = disposable;
     }
 }
