@@ -27,7 +27,7 @@ public class Snip {
     private Boolean isDisposable;
 
     @Column(name = "disposed", nullable = false)
-    private Boolean hasDisposed;
+    private Boolean hasDisposed = false;
 
     @CreationTimestamp
     @Column(name = "created_at")
