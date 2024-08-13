@@ -24,6 +24,7 @@ public class SnipController {
 
         return new SnipRetrievalResponse(
                 retrievedSnip.content(),
+                retrievedSnip.isDisposable(),
                 retrievedSnip.createdAt(),
                 retrievedSnip.expiryDate()
         );
