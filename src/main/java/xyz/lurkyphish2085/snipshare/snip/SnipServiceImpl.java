@@ -22,7 +22,7 @@ public class SnipServiceImpl implements SnipService {
     }
 
     public SnipDTO getSnip(String retrievalId) {
-        Optional<Snip> snipOptional = snipRepository.findByRetrievalId(retrievalId);
+        Optional<Snip> snipOptional = snipRepository.findByRetrievalIdAndHasDisposedFalse(retrievalId);
         if (snipOptional.isEmpty()) {
             throw new IllegalStateException("Snip '" + retrievalId + "' doesn't exist");
         }

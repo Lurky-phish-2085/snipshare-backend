@@ -8,5 +8,5 @@ import java.util.Optional;
 @Repository
 public interface SnipRepository extends JpaRepository<Snip, Long> {
 
-    Optional<Snip> findByRetrievalId(String retrievalId);
+    Optional<Snip> findByRetrievalIdAndHasDisposedFalse(String retrievalId);
 }
