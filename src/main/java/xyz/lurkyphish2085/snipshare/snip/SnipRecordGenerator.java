@@ -20,7 +20,7 @@ public class SnipRecordGenerator {
         String id = generateRandomId();
         String fileName = FILE_NAME_PREFIX + id + FILE_NAME_EXTENSION;
 
-        return new Snip(id, fileName, expiryDate);
+        return new Snip(id, fileName, expiryDate, false);
     }
 
     private String generateRandomId() {
