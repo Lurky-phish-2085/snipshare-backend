@@ -23,6 +23,22 @@ public class Snip {
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
 
+    public Boolean getHasDisposed() {
+        return hasDisposed;
+    }
+
+    public void setHasDisposed(Boolean hasDisposed) {
+        this.hasDisposed = hasDisposed;
+    }
+
+    public Boolean getDisposable() {
+        return isDisposable;
+    }
+
+    public void setDisposable(Boolean disposable) {
+        isDisposable = disposable;
+    }
+
     @Column(name = "disposable")
     private Boolean isDisposable;
 
@@ -40,10 +56,11 @@ public class Snip {
     protected Snip() {
     }
 
-    public Snip(String retrievalId, String fileName, LocalDate expiryDate) {
+    public Snip(String retrievalId, String fileName, LocalDate expiryDate, Boolean isDisposable) {
         this.retrievalId = retrievalId;
         this.fileName = fileName;
         this.expiryDate = expiryDate;
+        this.isDisposable = isDisposable;
     }
 
     @Override
