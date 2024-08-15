@@ -26,9 +26,6 @@ public class Snip {
     @Column(name = "disposable", nullable = false)
     private Boolean isDisposable;
 
-    @Column(name = "disposed", nullable = false)
-    private Boolean hasDisposed = false;
-
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDate createdAt;
@@ -105,14 +102,6 @@ public class Snip {
 
     public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Boolean getHasDisposed() {
-        return hasDisposed;
-    }
-
-    public void setHasDisposed(Boolean hasDisposed) {
-        this.hasDisposed = hasDisposed;
     }
 
     public Boolean getDisposable() {
