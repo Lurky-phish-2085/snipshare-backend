@@ -1,11 +1,14 @@
 package xyz.lurkyphish2085.snipshare.snip;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipDTO;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipRetrievalResponse;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionResponse;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping(path = "api/v1/snip")
@@ -13,27 +16,40 @@ public class SnipController {
 
     private final SnipService snipService;
 
-    @Autowired
-    public SnipController(SnipService snipService) {
+    private SnipController(SnipService snipService) {
         this.snipService = snipService;
     }
 
     @GetMapping(path = "{retrievalId}")
-    public SnipRetrievalResponse getSnip(@PathVariable("retrievalId") String retrievalId) {
-        SnipDTO retrievedSnip =  snipService.getSnip(retrievalId);
+    private ResponseEntity<SnipRetrievalResponse> getSnip(@PathVariable("retrievalId") String retrievalId) {
+        SnipDTO retrievedSnip;
 
-        return new SnipRetrievalResponse(
+        try {
+            retrievedSnip = snipService.getSnip(retrievalId);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+
+        SnipRetrievalResponse response = new SnipRetrievalResponse(
                 retrievedSnip.content(),
                 retrievedSnip.isDisposable(),
                 retrievedSnip.createdAt(),
                 retrievedSnip.expiryDate()
         );
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public SnipSubmissionResponse submitSnip(@RequestBody SnipSubmissionRequest request) {
+    private ResponseEntity<SnipSubmissionResponse> submitSnip(@RequestBody SnipSubmissionRequest request, UriComponentsBuilder uriBuilder) {
         String retrievalId = snipService.submitSnip(request);
+        URI createdSnipResourceLocation = uriBuilder
+                .path("api/v1/snip/{retrievalId}")
+                .buildAndExpand(retrievalId)
+                .toUri();
 
-        return new SnipSubmissionResponse(retrievalId);
+        return ResponseEntity
+                .created(createdSnipResourceLocation)
+                .build();
     }
 }

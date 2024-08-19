@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipDTO;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;
 
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 public class SnipServiceImpl implements SnipService {
@@ -22,17 +22,11 @@ public class SnipServiceImpl implements SnipService {
     }
 
     public SnipDTO getSnip(String retrievalId) {
-        Optional<Snip> snipOptional = snipRepository.findByRetrievalId(retrievalId);
-        if (snipOptional.isEmpty()) {
-            throw new IllegalStateException("Snip '" + retrievalId + "' doesn't exist");
-        }
-        Snip snip = snipOptional.get();
+        Snip snip = snipRepository.findByRetrievalId(retrievalId)
+                .orElseThrow(() -> new IllegalArgumentException("Snip '" + retrievalId + "' doesn't exist"));
 
-        Optional<String> snipContentOptional = snipFileRepository.getSnipFileContent(snip.getFileName());
-        if (snipContentOptional.isEmpty()) {
-            throw new IllegalStateException("Snip file '" + retrievalId + "' doesn't exist");
-        }
-        String snipContent = snipContentOptional.get();
+        String snipContent = snipFileRepository.getSnipFileContent(snip.getFileName())
+                .orElseThrow(() -> new NoSuchElementException("Snip file '" + retrievalId + "' doesn't exist"));
 
         if (snip.getDisposable()) {
             snipRepository.delete(snip);
