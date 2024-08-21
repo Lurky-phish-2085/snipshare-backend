@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public record SnipRetrievalResponse (
         String content,
+        String title,
         Boolean isDisposable,
         LocalDate createdAt,
         LocalDate expiryDate

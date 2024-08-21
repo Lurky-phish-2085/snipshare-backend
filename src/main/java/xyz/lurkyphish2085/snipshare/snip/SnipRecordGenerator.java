@@ -16,11 +16,11 @@ public class SnipRecordGenerator {
 
     private final SecureRandom random = new SecureRandom();
 
-    public Snip generate(LocalDate expiryDate, boolean isDisposable) {
+    public Snip generate(LocalDate expiryDate, boolean isDisposable, String title) {
         String id = generateRandomId();
         String fileName = FILE_NAME_PREFIX + id + FILE_NAME_EXTENSION;
 
-        return new Snip(id, fileName, expiryDate, isDisposable);
+        return new Snip(id, fileName, expiryDate, isDisposable, title);
     }
 
     private String generateRandomId() {

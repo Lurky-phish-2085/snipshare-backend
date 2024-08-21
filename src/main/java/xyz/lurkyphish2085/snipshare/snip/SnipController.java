@@ -32,6 +32,7 @@ public class SnipController {
 
         SnipRetrievalResponse response = new SnipRetrievalResponse(
                 retrievedSnip.content(),
+                retrievedSnip.title(),
                 retrievedSnip.isDisposable(),
                 retrievedSnip.createdAt(),
                 retrievedSnip.expiryDate()

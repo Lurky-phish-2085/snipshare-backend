@@ -33,11 +33,11 @@ public class SnipServiceImpl implements SnipService {
             snipRepository.delete(snip);
         }
 
-        return new SnipDTO(snipContent, snip.getDisposable(), snip.getCreatedAt(), snip.getExpiryDate());
+        return new SnipDTO(snipContent, snip.getTitle(), snip.getDisposable(), snip.getCreatedAt(), snip.getExpiryDate());
     }
 
     public String submitSnip(SnipSubmissionRequest request) {
-        Snip snip = snipRecordGenerator.generate(request.expiryDate(), request.isDisposable());
+        Snip snip = snipRecordGenerator.generate(request.expiryDate(), request.isDisposable(), request.title());
         snipRepository.save(snip);
         snipFileRepository.writeSnipFile(snip.getFileName(), request.content());
 
