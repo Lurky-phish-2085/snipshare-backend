@@ -17,6 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins(clientURL) // Adjust this to your frontend URL
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Adjust as needed
                 .allowedHeaders("*")
-                .allowCredentials(true);
+                .allowCredentials(true)
+                .exposedHeaders("Location");
     }
 }
