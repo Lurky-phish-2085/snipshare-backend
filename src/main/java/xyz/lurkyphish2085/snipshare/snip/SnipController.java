@@ -6,7 +6,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipDTO;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipRetrievalResponse;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;
-import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionResponse;
 
 import java.net.URI;
 
@@ -42,7 +41,7 @@ public class SnipController {
     }
 
     @PostMapping
-    private ResponseEntity<SnipSubmissionResponse> submitSnip(@RequestBody SnipSubmissionRequest request, UriComponentsBuilder uriBuilder) {
+    private ResponseEntity<Void> submitSnip(@RequestBody SnipSubmissionRequest request, UriComponentsBuilder uriBuilder) {
         String retrievalId = snipService.submitSnip(request);
         URI createdSnipResourceLocation = uriBuilder
                 .path("api/v1/snip/{retrievalId}")
@@ -51,6 +50,15 @@ public class SnipController {
 
         return ResponseEntity
                 .created(createdSnipResourceLocation)
+                .build();
+    }
+
+    @DeleteMapping(path = "{retrievalId}")
+    private ResponseEntity<Void> deleteSnip(@PathVariable String retrievalId) {
+        snipService.deleteSnip(retrievalId);
+
+        return ResponseEntity
+                .noContent()
                 .build();
     }
 }

@@ -7,4 +7,5 @@ public interface SnipService {
 
     SnipDTO getSnip(String retrievalId);
     String submitSnip (SnipSubmissionRequest request);
+    void deleteSnip(String retrievalId);
 }

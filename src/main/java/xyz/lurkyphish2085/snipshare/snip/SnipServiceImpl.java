@@ -1,5 +1,6 @@
 package xyz.lurkyphish2085.snipshare.snip;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipDTO;
@@ -29,10 +30,6 @@ public class SnipServiceImpl implements SnipService {
         String snipContent = snipFileRepository.getSnipFileContent(snip.getFileName())
                 .orElseThrow(() -> new NoSuchElementException("Snip file '" + retrievalId + "' doesn't exist"));
 
-        if (snip.getDisposable()) {
-            snipRepository.delete(snip);
-        }
-
         return new SnipDTO(snipContent, snip.getTitle(), snip.getDisposable(), snip.getCreatedAt(), snip.getExpiryDate());
     }
 
@@ -42,5 +39,10 @@ public class SnipServiceImpl implements SnipService {
         snipFileRepository.writeSnipFile(snip.getFileName(), request.content());
 
         return snip.getRetrievalId();
+    }
+
+    @Transactional
+    public void deleteSnip(String retrievalId) {
+        snipRepository.deleteByRetrievalId(retrievalId);
     }
 }

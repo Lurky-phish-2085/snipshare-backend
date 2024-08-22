@@ -11,4 +11,5 @@ public interface SnipRepository extends JpaRepository<Snip, Long> {
 
     Optional<Snip> findByRetrievalId(String retrievalId);
     Optional<Snip> findByRetrievalIdAndExpiryDateGreaterThanEqual(String retrievalId, LocalDate date);
+    void deleteByRetrievalId(String retrievalId);
 }
