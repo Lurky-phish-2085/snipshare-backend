@@ -1,0 +1,33 @@
+client:
+    url: ${CLIENT_URL}
+file:
+    path:
+        storage: ${SNIPSHARE_FILE_STORAGE_PATH}
+jwt:
+    private:
+        key: classpath:app.key
+    public:
+        key: classpath:app.pub
+server:
+    error:
+        include-message: always
+spring:
+    application:
+        name: Snip Share
+    datasource:
+        driver-class-name: org.mariadb.jdbc.Driver
+        password: ${DB_PASSWORD}
+        testWhileIdle: true
+        url: ${DB_URL}
+        username: ${DB_USERNAME}
+        validationQuery: SELECT 1
+    jackson:
+        serialization:
+            indent_output: true
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MariaDBDialect
+        show-sql: true
