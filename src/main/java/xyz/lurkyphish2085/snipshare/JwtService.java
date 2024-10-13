@@ -15,7 +15,7 @@ public class JwtService {
 
 
     private static final Long EXPIRATION_TIME = 86400000L; // 1 day in ms.
-    private static final String PREFIX = "Bearer";
+    private static final String PREFIX = "Bearer ";
 
     // These are test Keys. In production keys should be read from configuration.
     private static final MacAlgorithm ALGORITHM = Jwts.SIG.HS256;
