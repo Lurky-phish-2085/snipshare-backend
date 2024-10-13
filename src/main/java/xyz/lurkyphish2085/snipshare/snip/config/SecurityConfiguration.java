@@ -12,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import xyz.lurkyphish2085.snipshare.AuthenticationFilter;
 import xyz.lurkyphish2085.snipshare.UserDetailsServiceImpl;
 
 @Configuration
@@ -19,9 +21,11 @@ import xyz.lurkyphish2085.snipshare.UserDetailsServiceImpl;
 public class SecurityConfiguration {
 
     private final UserDetailsServiceImpl userDetailsService;
+    private final AuthenticationFilter authenticationFilter;
 
-    public SecurityConfiguration(UserDetailsServiceImpl userDetailsService) {
+    public SecurityConfiguration(UserDetailsServiceImpl userDetailsService, AuthenticationFilter authenticationFilter) {
         this.userDetailsService = userDetailsService;
+        this.authenticationFilter = authenticationFilter;
     }
 
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -43,7 +47,8 @@ public class SecurityConfiguration {
                         .permitAll()
                     .anyRequest()
                         .authenticated();
-            });
+            })
+            .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
