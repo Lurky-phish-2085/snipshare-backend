@@ -30,11 +30,11 @@ public class SnipServiceImpl implements SnipService {
         String snipContent = snipFileRepository.getSnipFileContent(snip.getFileName())
                 .orElseThrow(() -> new NoSuchElementException("Snip file '" + retrievalId + "' doesn't exist"));
 
-        return new SnipDTO(snipContent, snip.getTitle(), snip.getDisposable(), snip.getCreatedAt(), snip.getExpiryDate());
+        return new SnipDTO(snipContent, snip.getTitle(), snip.getAuthor(), snip.getDisposable(), snip.getCreatedAt(), snip.getExpiryDate());
     }
 
-    public String submitSnip(SnipSubmissionRequest request) {
-        Snip snip = snipRecordGenerator.generate(request.expiryDate(), request.isDisposable(), request.title());
+    public String submitSnip(SnipSubmissionRequest request, String author) {
+        Snip snip = snipRecordGenerator.generate(request.expiryDate(), request.isDisposable(), request.title(), author);
         snipRepository.save(snip);
         snipFileRepository.writeSnipFile(snip.getFileName(), request.content());
 

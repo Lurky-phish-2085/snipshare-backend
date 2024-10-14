@@ -6,6 +6,6 @@ import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;
 public interface SnipService {
 
     SnipDTO getSnip(String retrievalId);
-    String submitSnip (SnipSubmissionRequest request);
+    String submitSnip (SnipSubmissionRequest request, String author);
     void deleteSnip(String retrievalId);
 }
