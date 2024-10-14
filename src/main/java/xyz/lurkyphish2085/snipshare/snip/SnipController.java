@@ -3,6 +3,7 @@ package xyz.lurkyphish2085.snipshare.snip;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import xyz.lurkyphish2085.snipshare.CurrentAuthor;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipDTO;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipRetrievalResponse;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;
@@ -32,6 +33,7 @@ public class SnipController {
         SnipRetrievalResponse response = new SnipRetrievalResponse(
                 retrievedSnip.content(),
                 retrievedSnip.title(),
+                retrievedSnip.author(),
                 retrievedSnip.isDisposable(),
                 retrievedSnip.createdAt(),
                 retrievedSnip.expiryDate()
@@ -41,8 +43,8 @@ public class SnipController {
     }
 
     @PostMapping
-    private ResponseEntity<Void> submitSnip(@RequestBody SnipSubmissionRequest request, UriComponentsBuilder uriBuilder) {
-        String retrievalId = snipService.submitSnip(request);
+    private ResponseEntity<Void> submitSnip(@RequestBody SnipSubmissionRequest request, UriComponentsBuilder uriBuilder, @CurrentAuthor String author) {
+        String retrievalId = snipService.submitSnip(request, author);
         URI createdSnipResourceLocation = uriBuilder
                 .path("api/v1/snip/{retrievalId}")
                 .buildAndExpand(retrievalId)
