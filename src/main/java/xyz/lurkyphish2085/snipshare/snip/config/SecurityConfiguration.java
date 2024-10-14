@@ -2,7 +2,6 @@ package xyz.lurkyphish2085.snipshare.snip.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -46,7 +45,7 @@ public class SecurityConfiguration {
             )
             .authorizeHttpRequests((authorize) -> {
                 authorize
-                    .requestMatchers(HttpMethod.POST, "/login")
+                    .requestMatchers("/login", "/api/v1/snip/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated();
