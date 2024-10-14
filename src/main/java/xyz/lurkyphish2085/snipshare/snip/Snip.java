@@ -23,6 +23,9 @@ public class Snip {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "author", unique = true, nullable = false)
+    private String author;
+
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
 
@@ -40,18 +43,13 @@ public class Snip {
     protected Snip() {
     }
 
-    public Snip(
-            String retrievalId,
-            String fileName,
-            LocalDate expiryDate,
-            Boolean isDisposable,
-            String title
-    ) {
+    public Snip(String retrievalId, String fileName, String title, String author, LocalDate expiryDate, Boolean isDisposable) {
         this.retrievalId = retrievalId;
         this.fileName = fileName;
+        this.title = title;
+        this.author = author;
         this.expiryDate = expiryDate;
         this.isDisposable = isDisposable;
-        this.title = title;
     }
 
     @Override
@@ -128,5 +126,13 @@ public class Snip {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
