@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import xyz.lurkyphish2085.snipshare.AuthenticationEntryPointImpl;
 import xyz.lurkyphish2085.snipshare.AuthenticationFilter;
 import xyz.lurkyphish2085.snipshare.UserDetailsServiceImpl;
 
@@ -22,10 +23,12 @@ public class SecurityConfiguration {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationFilter authenticationFilter;
+    private final AuthenticationEntryPointImpl exceptionHandler;
 
-    public SecurityConfiguration(UserDetailsServiceImpl userDetailsService, AuthenticationFilter authenticationFilter) {
+    public SecurityConfiguration(UserDetailsServiceImpl userDetailsService, AuthenticationFilter authenticationFilter, AuthenticationEntryPointImpl exceptionHandler) {
         this.userDetailsService = userDetailsService;
         this.authenticationFilter = authenticationFilter;
+        this.exceptionHandler = exceptionHandler;
     }
 
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -48,7 +51,10 @@ public class SecurityConfiguration {
                     .anyRequest()
                         .authenticated();
             })
-            .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling((handler) -> handler
+                    .authenticationEntryPoint(exceptionHandler)
+            );
 
         return http.build();
     }
