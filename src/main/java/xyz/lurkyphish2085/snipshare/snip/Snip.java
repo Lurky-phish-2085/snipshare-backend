@@ -23,7 +23,7 @@ public class Snip {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "author", unique = true, nullable = false)
+    @Column(name = "author", nullable = false)
     private String author;
 
     @Column(name = "expiry_date")
