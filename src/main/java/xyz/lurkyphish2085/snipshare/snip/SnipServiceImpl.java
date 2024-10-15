@@ -42,7 +42,22 @@ public class SnipServiceImpl implements SnipService {
     }
 
     @Transactional
+    public void deleteSnip(String retrievalId, String author) {
+        if (author.equals("anonymousUser")) {
+            throw new IllegalArgumentException("Author name should not be anonymousUser");
+        }
+
+        snipRepository.findByRetrievalIdAndAuthor(retrievalId, author)
+            .orElseThrow(NoSuchElementException::new);
+
+        snipRepository.deleteByRetrievalIdAndAuthor(retrievalId, author);
+    }
+
+    @Transactional
     public void deleteSnip(String retrievalId) {
+        snipRepository.findByRetrievalId(retrievalId)
+            .orElseThrow(() -> new IllegalArgumentException("Snip '" + retrievalId + "' doesn't exist"));
+
         snipRepository.deleteByRetrievalId(retrievalId);
     }
 }
