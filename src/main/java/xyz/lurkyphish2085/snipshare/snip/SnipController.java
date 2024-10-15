@@ -1,6 +1,7 @@
 package xyz.lurkyphish2085.snipshare.snip;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import xyz.lurkyphish2085.snipshare.CurrentAuthor;
@@ -9,6 +10,8 @@ import xyz.lurkyphish2085.snipshare.snip.dto.SnipRetrievalResponse;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "api/v1/snip")
@@ -56,8 +59,14 @@ public class SnipController {
     }
 
     @DeleteMapping(path = "{retrievalId}")
-    private ResponseEntity<Void> deleteSnip(@PathVariable String retrievalId) {
-        snipService.deleteSnip(retrievalId);
+    private ResponseEntity<Void> deleteSnip(@PathVariable String retrievalId, @CurrentAuthor String author, Authentication authentication) {
+        List<String> authorities = authentication.getAuthorities().stream().map(Objects::toString).toList();
+
+        if (authorities.contains("ROLE_ADMIN")) {
+            snipService.deleteSnip(retrievalId);
+        } else {
+            snipService.deleteSnip(retrievalId, author);
+        }
 
         return ResponseEntity
                 .noContent()
