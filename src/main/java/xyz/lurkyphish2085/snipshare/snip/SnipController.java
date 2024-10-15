@@ -12,6 +12,7 @@ import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/snip")
@@ -24,7 +25,7 @@ public class SnipController {
     }
 
     @GetMapping(path = "{retrievalId}")
-    private ResponseEntity<SnipRetrievalResponse> getSnip(@PathVariable("retrievalId") String retrievalId) {
+    private ResponseEntity<SnipRetrievalResponse> getSnip(@PathVariable("retrievalId") String retrievalId, @RequestParam(required = false) Optional<Boolean> metadataOnly) {
         SnipDTO retrievedSnip;
 
         try {
@@ -33,8 +34,18 @@ public class SnipController {
             return ResponseEntity.notFound().build();
         }
 
+        String content = retrievedSnip.content();
+
+        if (metadataOnly.orElse(false)) {
+            content = "";
+        }
+
+        if (retrievedSnip.isDisposable() && !metadataOnly.orElse(false)) {
+            snipService.deleteSnip(retrievalId);
+        }
+
         SnipRetrievalResponse response = new SnipRetrievalResponse(
-                retrievedSnip.content(),
+                content,
                 retrievedSnip.title(),
                 retrievedSnip.author(),
                 retrievedSnip.isDisposable(),
