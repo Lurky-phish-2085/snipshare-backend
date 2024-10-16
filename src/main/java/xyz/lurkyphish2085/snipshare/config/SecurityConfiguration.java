@@ -1,4 +1,4 @@
-package xyz.lurkyphish2085.snipshare.snip.config;
+package xyz.lurkyphish2085.snipshare.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
