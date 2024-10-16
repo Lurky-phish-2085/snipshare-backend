@@ -9,6 +9,10 @@ import java.util.Optional;
 @Repository
 public interface SnipRepository extends JpaRepository<Snip, Long> {
 
+    default Optional<Snip> findActiveSnipByRetrievelId(String retrievalId) {
+        return findByRetrievalIdAndExpiryDateGreaterThanEqualOrExpiryDateIsNull(retrievalId, LocalDate.now());
+    }
+
     Optional<Snip> findByRetrievalId(String retrievalId);
     Optional<Snip> findByRetrievalIdAndExpiryDateGreaterThanEqualOrExpiryDateIsNull(String retrievalId, LocalDate date);
     Optional<Snip> findByAuthor(String author);
