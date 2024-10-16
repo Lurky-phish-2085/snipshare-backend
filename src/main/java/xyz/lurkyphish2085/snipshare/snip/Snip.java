@@ -10,6 +10,8 @@ import java.time.LocalDate;
 @Table(name = "snips")
 public class Snip {
 
+    private static final String DEFAULT_TITLE = "Untitled";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -49,7 +51,7 @@ public class Snip {
     public Snip(String retrievalId, String fileName, String title, String author, LocalDate expiryDate, Boolean isDisposable) {
         this.retrievalId = retrievalId;
         this.fileName = fileName;
-        this.title = title;
+        this.title = (title == null || title.isBlank()) ? DEFAULT_TITLE : title;
         this.author = author;
         this.expiryDate = expiryDate;
         this.isDisposable = isDisposable;
@@ -128,7 +130,7 @@ public class Snip {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = (title == null || title.isBlank()) ? DEFAULT_TITLE : title;
     }
 
     public String getAuthor() {
