@@ -1,4 +1,4 @@
-package xyz.lurkyphish2085.snipshare;
+package xyz.lurkyphish2085.snipshare.auth;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.MacAlgorithm;

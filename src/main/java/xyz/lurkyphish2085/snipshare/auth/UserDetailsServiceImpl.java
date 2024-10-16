@@ -1,4 +1,4 @@
-package xyz.lurkyphish2085.snipshare;
+package xyz.lurkyphish2085.snipshare.auth;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

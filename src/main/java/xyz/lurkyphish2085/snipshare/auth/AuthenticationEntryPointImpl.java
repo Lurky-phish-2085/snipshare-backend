@@ -1,4 +1,4 @@
-package xyz.lurkyphish2085.snipshare;
+package xyz.lurkyphish2085.snipshare.auth;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

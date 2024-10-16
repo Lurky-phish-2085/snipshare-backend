@@ -1,4 +1,4 @@
-package xyz.lurkyphish2085.snipshare;
+package xyz.lurkyphish2085.snipshare.auth.annotations;
 
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 

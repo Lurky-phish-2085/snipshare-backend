@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import xyz.lurkyphish2085.snipshare.CurrentAuthor;
+import xyz.lurkyphish2085.snipshare.auth.annotations.CurrentAuthor;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipDTO;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipRetrievalResponse;
 import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;

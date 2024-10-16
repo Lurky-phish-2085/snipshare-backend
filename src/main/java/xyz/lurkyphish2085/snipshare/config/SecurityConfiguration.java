@@ -13,9 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import xyz.lurkyphish2085.snipshare.AuthenticationEntryPointImpl;
-import xyz.lurkyphish2085.snipshare.JwtAuthenticationFilter;
-import xyz.lurkyphish2085.snipshare.UserDetailsServiceImpl;
+import xyz.lurkyphish2085.snipshare.auth.AuthenticationEntryPointImpl;
+import xyz.lurkyphish2085.snipshare.auth.JwtAuthenticationFilter;
+import xyz.lurkyphish2085.snipshare.auth.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity

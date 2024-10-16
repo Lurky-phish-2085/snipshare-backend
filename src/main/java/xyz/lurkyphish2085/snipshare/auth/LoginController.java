@@ -1,4 +1,4 @@
-package xyz.lurkyphish2085.snipshare;
+package xyz.lurkyphish2085.snipshare.auth;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
