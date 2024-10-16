@@ -7,6 +7,7 @@ public record SnipRetrievalResponse (
         String title,
         String author,
         Boolean isDisposable,
+        Boolean expires,
         LocalDate createdAt,
         LocalDate expiryDate
 ) {

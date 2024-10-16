@@ -24,13 +24,13 @@ public class SnipServiceImpl implements SnipService {
     }
 
     public SnipDTO getSnip(String retrievalId) {
-        Snip snip = snipRepository.findByRetrievalIdAndExpiryDateGreaterThanEqual(retrievalId, LocalDate.now())
+        Snip snip = snipRepository.findByRetrievalIdAndExpiryDateGreaterThanEqualOrExpiryDateIsNull(retrievalId, LocalDate.now())
                 .orElseThrow(() -> new IllegalArgumentException("Snip '" + retrievalId + "' doesn't exist"));
 
         String snipContent = snipFileRepository.getSnipFileContent(snip.getFileName())
                 .orElseThrow(() -> new NoSuchElementException("Snip file '" + retrievalId + "' doesn't exist"));
 
-        return new SnipDTO(snipContent, snip.getTitle(), snip.getAuthor(), snip.getDisposable(), snip.getCreatedAt(), snip.getExpiryDate());
+        return new SnipDTO(snipContent, snip.getTitle(), snip.getAuthor(), snip.getDisposable(), snip.getDoesExpire(), snip.getCreatedAt(), snip.getExpiryDate());
     }
 
     public String submitSnip(SnipSubmissionRequest request, String author) {

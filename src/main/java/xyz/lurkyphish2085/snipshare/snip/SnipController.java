@@ -49,6 +49,7 @@ public class SnipController {
                 retrievedSnip.title(),
                 retrievedSnip.author(),
                 retrievedSnip.isDisposable(),
+                retrievedSnip.expires(),
                 retrievedSnip.createdAt(),
                 retrievedSnip.expiryDate()
         );
