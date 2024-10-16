@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import xyz.lurkyphish2085.snipshare.auth.AuthenticationEntryPointImpl;
 import xyz.lurkyphish2085.snipshare.auth.JwtAuthenticationFilter;
 import xyz.lurkyphish2085.snipshare.auth.UserDetailsServiceImpl;
+import xyz.lurkyphish2085.snipshare.common.RestEndpoints;
 
 @Configuration
 @EnableWebSecurity
@@ -46,9 +47,9 @@ public class SecurityConfiguration {
             )
             .authorizeHttpRequests((authorize) -> {
                 authorize
-                    .requestMatchers(HttpMethod.DELETE, "/api/v1/snip/*")
+                    .requestMatchers(HttpMethod.DELETE, RestEndpoints.SNIP + "/**")
                         .hasAnyRole("ADMIN", "USER")
-                    .requestMatchers("/login", "/api/v1/snip/**")
+                    .requestMatchers(RestEndpoints.AUTHENTICATION + "/**", RestEndpoints.SNIP + "/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated();
