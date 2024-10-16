@@ -32,6 +32,9 @@ public class Snip {
     @Column(name = "disposable", nullable = false)
     private Boolean isDisposable;
 
+    @Transient
+    private Boolean doesExpire;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDate createdAt;
@@ -134,5 +137,9 @@ public class Snip {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Boolean getDoesExpire() {
+        return this.expiryDate != null;
     }
 }
