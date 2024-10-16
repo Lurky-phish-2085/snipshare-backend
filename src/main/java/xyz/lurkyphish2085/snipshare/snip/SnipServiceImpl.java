@@ -24,7 +24,7 @@ public class SnipServiceImpl implements SnipService {
     }
 
     public SnipDTO getSnip(String retrievalId) {
-        Snip snip = snipRepository.findByRetrievalIdAndExpiryDateGreaterThanEqualOrExpiryDateIsNull(retrievalId, LocalDate.now())
+        Snip snip = snipRepository.findActiveSnipByRetrievelId(retrievalId)
                 .orElseThrow(() -> new IllegalArgumentException("Snip '" + retrievalId + "' doesn't exist"));
 
         String snipContent = snipFileRepository.getSnipFileContent(snip.getFileName())
