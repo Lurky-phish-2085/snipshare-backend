@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import xyz.lurkyphish2085.snipshare.auth.Roles;
 import xyz.lurkyphish2085.snipshare.user.AppUser;
 import xyz.lurkyphish2085.snipshare.user.AppUserRepository;
 
@@ -21,8 +22,8 @@ public class SnipShareApplication {
 	CommandLineRunner testUsers(AppUserRepository repository, PasswordEncoder passwordEncoder) throws Exception {
 		return (args) -> {
 			// Add test app users and save these to db
-			AppUser user = new AppUser("user", passwordEncoder.encode("password"), "USER");
-			AppUser admin = new AppUser("admin", passwordEncoder.encode("admin"), "ADMIN");
+			AppUser user = new AppUser("user", passwordEncoder.encode("password"), Roles.USER.name());
+			AppUser admin = new AppUser("admin", passwordEncoder.encode("admin"), Roles.ADMIN.name());
 
 			repository.saveAll(List.of(user, admin));
 		};
