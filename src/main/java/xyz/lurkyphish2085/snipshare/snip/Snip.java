@@ -20,7 +20,7 @@ public class Snip {
     @Column(name = "file_name", unique = true, nullable = false)
     private String fileName;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "author", nullable = false)
@@ -128,7 +128,7 @@ public class Snip {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = (title.isBlank()) ? "Untitled" : title;
     }
 
     public String getAuthor() {
