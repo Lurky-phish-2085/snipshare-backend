@@ -1,5 +1,7 @@
 package xyz.lurkyphish2085.snipshare.snip;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,8 @@ import java.util.Optional;
 @RequestMapping(path = RestEndpoints.SNIP)
 public class SnipController {
 
+    private static final Logger logger = LoggerFactory.getLogger(SnipController.class);
+
     private final SnipService snipService;
 
     private SnipController(SnipService snipService) {
@@ -32,6 +36,7 @@ public class SnipController {
         try {
             retrievedSnip = snipService.getSnip(retrievalId);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             return ResponseEntity.notFound().build();
         }
 
