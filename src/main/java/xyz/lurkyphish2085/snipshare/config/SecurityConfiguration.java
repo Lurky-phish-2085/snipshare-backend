@@ -50,6 +50,8 @@ public class SecurityConfiguration {
                 authorize
                     .requestMatchers(HttpMethod.DELETE, RestEndpoints.SNIP + "/**")
                         .hasAnyRole(Roles.ADMIN.name(), Roles.USER.name())
+                    .requestMatchers(RestEndpoints.AUTHENTICATION + "/validate")
+                        .hasAnyRole(Roles.ADMIN.name(), Roles.USER.name())
                     .requestMatchers(RestEndpoints.AUTHENTICATION + "/**", RestEndpoints.SNIP + "/**")
                         .permitAll()
                     .anyRequest()

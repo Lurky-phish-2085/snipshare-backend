@@ -1,18 +1,20 @@
 package xyz.lurkyphish2085.snipshare.auth;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.lurkyphish2085.snipshare.common.RestEndpoints;
 import xyz.lurkyphish2085.snipshare.user.AppUser;
+import xyz.lurkyphish2085.snipshare.user.AppUserDTO;
 import xyz.lurkyphish2085.snipshare.user.AppUserRepository;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = RestEndpoints.AUTHENTICATION)
@@ -67,5 +69,24 @@ public class AuthenticationController {
         userRepository.save(registeredUser);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<AppUserDTO> validate(HttpServletRequest request) {
+        Optional<String> username = Optional.ofNullable(jwtService.getAuthenticatedUser(request));
+        if (username.isEmpty()) {
+            throw new IllegalArgumentException("Jwt is invalid or Subject doesn't exist as User.");
+        }
+
+        Optional<AppUser> userOptional = userRepository.findByUsername(username.get());
+        userOptional.orElseThrow(() -> new IllegalArgumentException("User doesn't exists."));
+        AppUser user = userOptional.get();
+        String jwts = jwtService.generateToken(user.getUsername());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
+                .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
+                .body(new AppUserDTO(user.getUsername(), user.getRole()));
     }
 }
