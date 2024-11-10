@@ -9,6 +9,7 @@ public record SnipDTO(
         Boolean isDisposable,
         Boolean expires,
         LocalDate createdAt,
-        LocalDate expiryDate
+        LocalDate expiryDate,
+        String retrievalId
 ) {
 }

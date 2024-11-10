@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import xyz.lurkyphish2085.snipshare.auth.annotations.CurrentAuthor;
 import xyz.lurkyphish2085.snipshare.common.RestEndpoints;
-import xyz.lurkyphish2085.snipshare.snip.dto.SnipDTO;
-import xyz.lurkyphish2085.snipshare.snip.dto.SnipRetrievalResponse;
-import xyz.lurkyphish2085.snipshare.snip.dto.SnipSubmissionRequest;
+import xyz.lurkyphish2085.snipshare.snip.dto.*;
 
 import java.net.URI;
 import java.util.List;
@@ -30,7 +28,7 @@ public class SnipController {
     }
 
     @GetMapping(path = "{retrievalId}")
-    private ResponseEntity<SnipRetrievalResponse> getSnip(@PathVariable("retrievalId") String retrievalId, @RequestParam(required = false) Optional<Boolean> metadataOnly) {
+    private ResponseEntity<SnipDTO> getSnip(@PathVariable("retrievalId") String retrievalId, @RequestParam(required = false) Optional<Boolean> metadataOnly) {
         SnipDTO retrievedSnip;
 
         try {
@@ -50,17 +48,25 @@ public class SnipController {
             snipService.deleteSnip(retrievalId);
         }
 
-        SnipRetrievalResponse response = new SnipRetrievalResponse(
+        SnipDTO response = new SnipDTO(
                 content,
                 retrievedSnip.title(),
                 retrievedSnip.author(),
                 retrievedSnip.isDisposable(),
                 retrievedSnip.expires(),
                 retrievedSnip.createdAt(),
-                retrievedSnip.expiryDate()
+                retrievedSnip.expiryDate(),
+                retrievedSnip.retrievalId()
         );
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "author/{name}")
+    private ResponseEntity<SnipArrayRetrievalResponse> getSnipsByAuthor(@PathVariable("name") String author) {
+        List<SnipDTO> snips = snipService.getSnipsByAuthor(author);
+
+        return ResponseEntity.ok(new SnipArrayRetrievalResponse(snips));
     }
 
     @PostMapping
@@ -76,18 +82,31 @@ public class SnipController {
                 .build();
     }
 
+    @PatchMapping(path = "{retrievalId}")
+    private ResponseEntity<Void> patchSnip(@PathVariable String retrievalId, @RequestBody SnipPatchDTO partialUpdate, @CurrentAuthor String author, UriComponentsBuilder uriBuilder) {
+        snipService.patchSnip(retrievalId, partialUpdate, author);
+
+        URI createdSnipResourceLocation = uriBuilder
+                .path("api/v1/snip/{retrievalId}")
+                .buildAndExpand(retrievalId)
+                .toUri();
+
+        return ResponseEntity
+                .created(createdSnipResourceLocation)
+                .build();
+    }
+
     @DeleteMapping(path = "{retrievalId}")
-    private ResponseEntity<Void> deleteSnip(@PathVariable String retrievalId, @CurrentAuthor String author, Authentication authentication) {
+    private ResponseEntity<SnipDTO> deleteSnip(@PathVariable String retrievalId, @CurrentAuthor String author, Authentication authentication) {
         List<String> authorities = authentication.getAuthorities().stream().map(Objects::toString).toList();
 
+        SnipDTO deletedSnip = null;
         if (authorities.contains("ROLE_ADMIN")) {
             snipService.deleteSnip(retrievalId);
         } else {
-            snipService.deleteSnip(retrievalId, author);
+            deletedSnip = snipService.deleteSnip(retrievalId, author);
         }
 
-        return ResponseEntity
-                .noContent()
-                .build();
+        return ResponseEntity.ok(deletedSnip);
     }
 }
